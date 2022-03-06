@@ -1,6 +1,16 @@
+const displayPreviousData = () => {
+    const previousNames = getCart();
+    for (const previousName in previousNames) {
+        displayProduct(previousName);
+    }
+}
+
 const addCart = () => {
     const inputText = document.getElementById('product-input');
     const input = inputText.value;
+    if (!input) {
+        return;
+    }
     //display product
     displayProduct(input);
 
@@ -31,7 +41,19 @@ const getCart = () => {
 
 const addProductToCart = name => {
     const cart = getCart();
-    cart[name] = 1;
+    if (cart[name]) {
+        cart[name] = cart[name] + 1;
+    }
+    else {
+        cart[name] = 1;
+    }
     const cartStringified = JSON.stringify(cart);
     localStorage.setItem('cart', cartStringified);
 }
+
+const confirmOrder = () => {
+    document.getElementById('ul').textContent = '';
+    localStorage.clear('cart');
+}
+
+displayPreviousData();
